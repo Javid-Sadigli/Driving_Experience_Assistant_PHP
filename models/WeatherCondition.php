@@ -3,8 +3,8 @@
     
     class WeatherCondition
     {
-        private $weatherCondition;
-        private $weatherId; 
+        private string $weatherCondition;
+        private int $weatherId; 
 
         private static $dbTableName = "WeatherConditions"; 
         private static $primaryKeyName = "weatherId";
@@ -17,22 +17,22 @@
             $this->weatherId = $weatherId;   
         }
 
-        public function getWeatherCondition()
+        public function getWeatherCondition(): string
         {
             return $this->weatherCondition;
         }
 
-        public function getWeatherId()
+        public function getWeatherId(): int
         {
             return $this->weatherId;
         }
 
-        public function setWeatherCondition($weatherCondition)
+        public function setWeatherCondition($weatherCondition): void
         {
             $this->weatherCondition = $weatherCondition;
         }
 
-        public function setWeatherId($weatherId)
+        public function setWeatherId($weatherId): void
         {
             $this->weatherId = $weatherId;
         }
@@ -44,7 +44,7 @@
             $result = []; 
             foreach ($rows as $row)
             {
-                $result[] = new WeatherCondition(
+                $result[] = new self(
                     $row["weatherId"],
                     $row["weatherCondition"]
                 ); 
@@ -53,12 +53,12 @@
             return $result;
         }
 
-        public static function findById(int $weatherId) : WeatherCondition
+        public static function findById(int $weatherId): self
         {
             $row = self::$dbConnection->selectOneByPrimaryKey(
                 self::$dbTableName, self::$primaryKeyName, $weatherId
             ); 
-            return new WeatherCondition(
+            return new self(
                 $row["weatherId"],
                 $row["weatherCondition"]
             );
