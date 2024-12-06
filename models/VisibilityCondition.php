@@ -1,6 +1,4 @@
 <?php 
-    include("../db/DB.php");
-
     class VisibilityCondition
     {
         private int $visibilityId;

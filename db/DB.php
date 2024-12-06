@@ -1,6 +1,4 @@
-<?php 
-    include("./MySqlConnection.php");
-
+<?php
     class DB
     {
         private static $host="mysql-javidsadigli.alwaysdata.net";

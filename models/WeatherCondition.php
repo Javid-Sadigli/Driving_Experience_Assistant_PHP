@@ -1,6 +1,4 @@
 <?php
-    include("../db/DB.php");
-    
     class WeatherCondition
     {
         private string $weatherCondition;
@@ -9,12 +7,21 @@
         private static $dbTableName = "WeatherConditions"; 
         private static $primaryKeyName = "weatherId";
         
-        private static $dbConnection = DB::getInstance();
+        private static $dbConnection = null;
         
         public function __construct($weatherId, $weatherCondition)
         {
             $this->weatherCondition = $weatherCondition;
             $this->weatherId = $weatherId;   
+        }
+
+        private static function getDbConnection(): DB
+        {
+            if(self::$dbConnection == null)
+            {
+                self::$dbConnection = DB::getInstance();
+            }
+            return self::$dbConnection;
         }
 
         public function getWeatherCondition(): string
@@ -39,7 +46,7 @@
 
         public static function findAll() : array
         {
-            $rows = self::$dbConnection->selectAll(self::$dbTableName);
+            $rows = self::getDbConnection()->selectAll(self::$dbTableName);
 
             $result = []; 
             foreach ($rows as $row)
@@ -55,7 +62,7 @@
 
         public static function findById(int $weatherId): self
         {
-            $row = self::$dbConnection->selectOneByPrimaryKey(
+            $row = self::getDbConnection()->selectOneByPrimaryKey(
                 self::$dbTableName, self::$primaryKeyName, $weatherId
             ); 
             return new self(
