@@ -7,16 +7,23 @@
         private static $username="334744_sqluser"; 
         private static $password="sqluser";
         private static $db="javidsadigli_ufaz_db_demo";
-        private MySqlConnection $connection = new MySqlConnection(
-            self::$host, self::$username, self::$password, self::$db
-        );
+        private MySqlConnection $connection; 
 
-        private function __construct() {}
+        private function __construct() 
+        {
+            $this->connection =  new MySqlConnection(
+                self::$host, self::$username, self::$password, self::$db
+            );
+        }
 
-        private static $instance = new DB();
+        private static $instance = null;
 
         public static function getInstance() : DB 
         {
+            if (self::$instance == null)
+            {
+                self::$instance = new DB();
+            }
             return self::$instance;
         }
 
