@@ -1,0 +1,66 @@
+form{
+    width: 60%;
+    max-width: 600px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+.input_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+    width: 80%;
+}
+label{
+    width: 120px;
+}
+input{
+    width: 150px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+select{
+    width: 150px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+button[type="submit"]{
+    width: 320px;
+    margin-top: 15px;
+    height: 50px;
+    border: 2px solid darkblue;
+    border-radius: 8px;
+    background-color: white;
+    color: darkblue;
+    font-size: 20px;
+    transition: all 0.2s ease-in;
+    cursor: pointer;
+}
+button[type="submit"]:hover{
+    color: white;
+    font-weight: 700;
+    background-color: darkblue;
+}
+@media screen and (max-width: 640px) {
+    form{
+        width: 85%;
+    }
+    button[type="submit"]
+    {
+        width: 80%;
+    }
+    label
+    {
+        width: 100px;
+    }
+}
