@@ -4,10 +4,10 @@
         private int $roadId; 
         private string $roadType; 
 
-        private static $dbTableName = "RoadConditions";
-        private static $primaryKeyName = "roadId";
+        private static string $dbTableName = "RoadConditions";
+        private static string $primaryKeyName = "roadId";
 
-        private static $dbConnection = DB::getInstance();
+        private static $dbConnection = null;
 
         public function __construct($roadId, $roadType)
         {

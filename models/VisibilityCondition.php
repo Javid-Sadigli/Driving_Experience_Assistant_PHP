@@ -4,8 +4,8 @@
         private int $visibilityId;
         private string $visibilityCondition; 
 
-        private static $dbTableName = "VisibilityConditions"; 
-        private static $primaryKeyName = "visibilityId";
+        private static string $dbTableName = "VisibilityConditions"; 
+        private static string $primaryKeyName = "visibilityId";
         
         private static $dbConnection = null;
 

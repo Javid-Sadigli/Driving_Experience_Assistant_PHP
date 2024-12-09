@@ -4,8 +4,8 @@
         private int $trafficId; 
         private string $trafficCondition; 
 
-        private static $dbTableName = "TrafficConditions"; 
-        private static $primaryKeyName = "trafficId";
+        private static string $dbTableName = "TrafficConditions"; 
+        private static string $primaryKeyName = "trafficId";
         
         private static $dbConnection = null;
 

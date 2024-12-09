@@ -4,8 +4,8 @@
         private string $weatherCondition;
         private int $weatherId; 
 
-        private static $dbTableName = "WeatherConditions"; 
-        private static $primaryKeyName = "weatherId";
+        private static string $dbTableName = "WeatherConditions"; 
+        private static string $primaryKeyName = "weatherId";
         
         private static $dbConnection = null;
         

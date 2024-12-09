@@ -115,5 +115,21 @@
             $stmt->bindParam(':primaryKey', $primaryKeyValue, PDO::PARAM_INT);
             return $stmt->execute();
         }
+
+        public function selectWithJoins(string $baseTable, array $joins) : array 
+        {
+            $query = "SELECT * FROM $baseTable";
+        
+            foreach ($joins as $joinTable => $onCondition) 
+            {
+                $query .= " JOIN $joinTable ON $onCondition";
+            }
+        
+            $stmt = $this->getDB()->getConnection()->prepare($query);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
         
     }
