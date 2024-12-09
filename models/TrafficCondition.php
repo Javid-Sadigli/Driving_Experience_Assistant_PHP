@@ -7,12 +7,21 @@
         private static $dbTableName = "TrafficConditions"; 
         private static $primaryKeyName = "trafficId";
         
-        private static $dbConnection = DB::getInstance();
+        private static $dbConnection = null;
 
         public function __construct(int $trafficId, string $trafficCondition)
         {
             $this->trafficId = $trafficId;
             $this->trafficCondition = $trafficCondition;
+        }
+
+        public static function getDbConnection(): DB
+        {
+            if (self::$dbConnection === null) 
+            {
+                self::$dbConnection = DB::getInstance();
+            }
+            return self::$dbConnection;
         }
 
         public function getTrafficId(): int
@@ -37,7 +46,7 @@
 
         public static function findAll(): array
         {
-            $rows = self::$dbConnection->selectAll(self::$dbTableName);
+            $rows = self::getDbConnection()->selectAll(self::$dbTableName);
 
             $result = []; 
             foreach ($rows as $row)
@@ -52,7 +61,7 @@
 
         public static function findById(int $roadId):self
         {
-            $row = self::$dbConnection->selectOneByPrimaryKey(
+            $row = self::getDbConnection()->selectOneByPrimaryKey(
                 self::$dbTableName, self::$primaryKeyName, $roadId
             ); 
             return new self(

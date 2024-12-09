@@ -7,12 +7,21 @@
         private static $dbTableName = "VisibilityConditions"; 
         private static $primaryKeyName = "visibilityId";
         
-        private static $dbConnection = DB::getInstance();
+        private static $dbConnection = null;
 
         public function __construct(int $visibilityId, string $visibilityCondition)
         {
             $this->visibilityId = $visibilityId;
             $this->visibilityCondition = $visibilityCondition;
+        }
+
+        public static function getDbConnection(): DB
+        {
+            if(self::$dbConnection == null)
+            {
+                self::$dbConnection = DB::getInstance();
+            }
+            return self::$dbConnection;
         }
 
         public function getVisibilityId(): int
@@ -37,7 +46,7 @@
 
         public static function findAll() : array
         {
-            $rows = self::$dbConnection->selectAll(self::$dbTableName);
+            $rows = self::getDbConnection()->selectAll(self::$dbTableName);
 
             $result = []; 
             foreach ($rows as $row)
@@ -53,7 +62,7 @@
 
         public static function findById(int $weatherId): self
         {
-            $row = self::$dbConnection->selectOneByPrimaryKey(
+            $row = self::getDbConnection()->selectOneByPrimaryKey(
                 self::$dbTableName, self::$primaryKeyName, $weatherId
             ); 
             return new self(

@@ -15,6 +15,15 @@
             $this->roadType = $roadType;
         }
 
+        public static function getDbConnection(): DB
+        {
+            if(self::$dbConnection == null)
+            {
+                self::$dbConnection = DB::getInstance();
+            }
+            return self::$dbConnection;
+        }
+
         public function getRoadId(): int
         {
             return $this->roadId;
