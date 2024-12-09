@@ -28,53 +28,22 @@
             ?WeatherCondition $weatherCondition = null,
             ?TrafficCondition $trafficCondition = null,
             ?VisibilityCondition $visibilityCondition = null,
-            ?RoadCondition $roadCondition = null, 
-            int $weatherId = null, 
-            int $trafficId = null, 
-            int $visibilityId = null, 
+            ?RoadCondition $roadCondition = null,
+            int $weatherId = null,
+            int $trafficId = null,
+            int $visibilityId = null,
             int $roadId = null
         ){
-            $this->setExperienceId($experienceId); 
-            $this->setDate($date);
-            $this->setStartTime($startTime);
-            $this->setEndTime($endTime);
-            $this->setKm($km);
-            
-            if($weatherCondition != null)
-            {
-                $this->setWeatherCondition($weatherCondition);
-            }
-            else if($weatherId != null)
-            {
-                $this->setWeatherConditionById($weatherId); 
-            }
-
-            if($trafficCondition != null)
-            {
-                $this->setTrafficCondition($trafficCondition);
-            }
-            else if($trafficId != null)
-            {
-                $this->setTrafficConditionById($trafficId);
-            }
-
-            if($visibilityCondition != null)
-            {
-                $this->setVisibilityCondition($visibilityCondition);
-            }
-            else if($visibilityId != null)
-            {
-                $this->setVisibilityConditionById($visibilityId);
-            }
-
-            if($roadCondition != null)
-            {
-                $this->setRoadCondition($roadCondition);
-            }
-            else if($roadId != null)
-            {
-                $this->setRoadConditionById($roadId);
-            }
+            $this->experienceId = $experienceId ?? 0;
+            $this->date = $date ?? '';
+            $this->startTime = $startTime ?? '';
+            $this->endTime = $endTime ?? '';
+            $this->km = $km ?? 0;
+    
+            $this->weatherCondition = $weatherCondition ?? ($weatherId ? WeatherCondition::findById($weatherId) : null);
+            $this->trafficCondition = $trafficCondition ?? ($trafficId ? TrafficCondition::findById($trafficId) : null);
+            $this->visibilityCondition = $visibilityCondition ?? ($visibilityId ? VisibilityCondition::findById($visibilityId) : null);
+            $this->roadCondition = $roadCondition ?? ($roadId ? RoadCondition::findById($roadId) : null);
         }
 
         public static function getDbConnection(): DB
@@ -136,7 +105,7 @@
             $this->km = $km;
         }
 
-        public function getWeatherCondition(): WeatherCondition
+        public function getWeatherCondition(): ?WeatherCondition
         {
             return $this->weatherCondition;
         }
@@ -151,7 +120,7 @@
             $this->weatherCondition = WeatherCondition::findById($weatherId);
         }
 
-        public function getTrafficCondition(): TrafficCondition
+        public function getTrafficCondition(): ?TrafficCondition
         {
             return $this->trafficCondition;
         }
@@ -166,7 +135,7 @@
             $this->trafficCondition = TrafficCondition::findById($trafficId);
         }
 
-        public function getVisibilityCondition(): VisibilityCondition
+        public function getVisibilityCondition(): ?VisibilityCondition
         {
             return $this->visibilityCondition;
         }
@@ -181,7 +150,7 @@
             $this->visibilityCondition = VisibilityCondition::findById($visibilityId); 
         }
 
-        public function getRoadCondition(): RoadCondition
+        public function getRoadCondition(): ?RoadCondition
         {
             return $this->roadCondition;
         }
