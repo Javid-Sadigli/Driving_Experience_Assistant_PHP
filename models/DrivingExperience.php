@@ -7,10 +7,10 @@
         private string $startTime; 
         private string $endTime;
         private int $km; 
-        private WeatherCondition $weatherCondition; 
-        private TrafficCondition $trafficCondition;
-        private VisibilityCondition $visibilityCondition; 
-        private RoadCondition $roadCondition;
+        private ?WeatherCondition $weatherCondition = null; 
+        private ?TrafficCondition $trafficCondition= null ;
+        private ?VisibilityCondition $visibilityCondition = null; 
+        private ?RoadCondition $roadCondition = null;
 
 
         private static string $dbTableName = "DrivingExperiences";
@@ -19,11 +19,63 @@
         private static $dbConnection = null; 
 
 
-        public function __construct() 
-        {
+        public function __construct(
+            int $experienceId = null,
+            string $date = null,
+            string $startTime = null,
+            string $endTime = null,
+            int $km = null,
+            ?WeatherCondition $weatherCondition = null,
+            ?TrafficCondition $trafficCondition = null,
+            ?VisibilityCondition $visibilityCondition = null,
+            ?RoadCondition $roadCondition = null, 
+            int $weatherId = null, 
+            int $trafficId = null, 
+            int $visibilityId = null, 
+            int $roadId = null
+        ){
+            $this->setExperienceId($experienceId); 
+            $this->setDate($date);
+            $this->setStartTime($startTime);
+            $this->setEndTime($endTime);
+            $this->setKm($km);
+            
+            if($weatherCondition != null)
+            {
+                $this->setWeatherCondition($weatherCondition);
+            }
+            else if($weatherId != null)
+            {
+                $this->setWeatherConditionById($weatherId); 
+            }
 
+            if($trafficCondition != null)
+            {
+                $this->setTrafficCondition($trafficCondition);
+            }
+            else if($trafficId != null)
+            {
+                $this->setTrafficConditionById($trafficId);
+            }
+
+            if($visibilityCondition != null)
+            {
+                $this->setVisibilityCondition($visibilityCondition);
+            }
+            else if($visibilityId != null)
+            {
+                $this->setVisibilityConditionById($visibilityId);
+            }
+
+            if($roadCondition != null)
+            {
+                $this->setRoadCondition($roadCondition);
+            }
+            else if($roadId != null)
+            {
+                $this->setRoadConditionById($roadId);
+            }
         }
-
 
         public static function getDbConnection(): DB
         {
