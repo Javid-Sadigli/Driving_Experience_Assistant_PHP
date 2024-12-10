@@ -1,5 +1,4 @@
-<?php 
-    
+<?php
     class DrivingExperience
     {
         private int $experienceId; 
@@ -163,5 +162,117 @@
         public function setRoadConditionById(int $roadId): void
         {
             $this->roadCondition = RoadCondition::findById($roadId);
+        }
+
+        public function save(): bool
+        {   
+            $data = [
+                "date" => $this->getDate(), 
+                "startTime" => $this->getStartTime(),
+                "endTime" => $this->getEndTime(),
+                "km" => $this->getKm(),
+                "weatherId" => $this->weatherCondition? $this->weatherCondition->getWeatherId() : null,
+                "trafficId" => $this->trafficCondition? $this->trafficCondition->getTrafficId() : null,
+                "roadId" => $this->roadCondition? $this->roadCondition->getRoadId() : null,
+                "visibilityId" => $this->visibilityCondition? $this->visibilityCondition->getVisibilityId() : null
+            ]; 
+
+            if($this->getExperienceId() == 0)
+            {
+                return self::getDbConnection()->insertOne(self::$dbTableName, $data);
+            }
+            else 
+            {
+                return self::getDbConnection()->updateOne(
+                    self::$dbTableName, 
+                    "experienceId",
+                    $this->getExperienceId(),
+                    $data
+                );
+            }
+        }
+
+        public static function findById(int $experienceId): self
+        {
+            $joins = [
+                WeatherCondition::getDbTableName() => self::$dbTableName . ".weatherId = " . WeatherCondition::getDbTableName() . "." . WeatherCondition::getPrimaryKeyName(), 
+                TrafficCondition::getDbTableName() => self::$dbTableName. ".trafficId = " . TrafficCondition::getDbTableName() . "." . TrafficCondition::getPrimaryKeyName(),
+                RoadCondition::getDbTableName() => self::$dbTableName. ".roadId = " . RoadCondition::getDbTableName() . "." . RoadCondition::getPrimaryKeyName(),
+                VisibilityCondition::getDbTableName() => self::$dbTableName. ".visibilityId = " . VisibilityCondition::getDbTableName(). "." . VisibilityCondition::getPrimaryKeyName()   
+            ]; 
+
+            $row = self::getDbConnection()->selectOneByPrimaryKeyWithJoins(
+                self::$dbTableName,
+                self::$primaryKeyName, 
+                $experienceId,
+                $joins
+            ); 
+            
+            return new self(
+                $row["experienceId"]?? null,
+                $row["date"]?? null,
+                $row["startTime"]?? null,
+                $row["endTime"]?? null,
+                $row["km"]?? null,
+                $row["weatherId"] ? new WeatherCondition(
+                    $row["weatherId"], 
+                    $row["weatherCondition"]
+                ) : null,
+                $row["trafficId"] ? new TrafficCondition(
+                    $row["trafficId"], 
+                    $row["trafficCondition"]
+                ) : null,
+                $row["visibilityId"] ? new VisibilityCondition(
+                    $row["visibilityId"], 
+                    $row["visibilityCondition"]
+                ) : null,
+                $row["roadId"] ? new RoadCondition(
+                    $row["roadId"], 
+                    $row["roadCondition"]
+                ) : null
+            );
+        }
+
+        public static function findAll(): array
+        {
+            $joins = [
+                WeatherCondition::getDbTableName() => self::$dbTableName . ".weatherId = " . WeatherCondition::getDbTableName() . "." . WeatherCondition::getPrimaryKeyName(), 
+                TrafficCondition::getDbTableName() => self::$dbTableName. ".trafficId = " . TrafficCondition::getDbTableName() . "." . TrafficCondition::getPrimaryKeyName(),
+                RoadCondition::getDbTableName() => self::$dbTableName. ".roadId = " . RoadCondition::getDbTableName() . "." . RoadCondition::getPrimaryKeyName(),
+                VisibilityCondition::getDbTableName() => self::$dbTableName. ".visibilityId = " . VisibilityCondition::getDbTableName(). "." . VisibilityCondition::getPrimaryKeyName()   
+            ]; 
+
+            $rows = self::getDbConnection()->selectAllWithJoins(self::$dbTableName, $joins);
+
+            $result = []; 
+
+            foreach ($rows as $row) 
+            {
+                $result[] = new self(
+                    $row["experienceId"]?? null,
+                    $row["date"]?? null,
+                    $row["startTime"]?? null,
+                    $row["endTime"]?? null,
+                    $row["km"]?? null,
+                    $row["weatherId"]? new WeatherCondition(
+                        $row["weatherId"], 
+                        $row["weatherCondition"]
+                    ) : null,
+                    $row["trafficId"]? new TrafficCondition(
+                        $row["trafficId"], 
+                        $row["trafficCondition"]
+                    ) : null,
+                    $row["visibilityId"]? new VisibilityCondition(
+                        $row["visibilityId"], 
+                        $row["visibilityCondition"]
+                    ) : null,
+                    $row["roadId"]? new RoadCondition(
+                        $row["roadId"], 
+                        $row["roadCondition"]
+                    ) : null
+                );
+            }
+
+            return $result;
         }
     }

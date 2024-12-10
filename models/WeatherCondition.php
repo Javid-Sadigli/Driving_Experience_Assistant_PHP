@@ -70,4 +70,14 @@
                 $row["weatherCondition"]
             );
         }
+
+        public static function getDbTableName(): string
+        {
+            return self::$dbTableName;
+        }
+
+        public static function getPrimaryKeyName(): string
+        {
+            return self::$primaryKeyName;
+        }
     }
