@@ -275,4 +275,18 @@
 
             return $result;
         }
+
+        public static function deleteById(int $experienceId): bool
+        {
+            return self::getDbConnection()->deleteByPrimaryKey(
+                self::$dbTableName, 
+                self::$primaryKeyName,
+                $experienceId
+            ); 
+        }
+
+        public static function deleteAll() : bool
+        {
+            return self::getDbConnection()->deleteAll(self::$dbTableName);
+        }
     }

@@ -148,4 +148,11 @@
 
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
+
+        public function deleteAll(string $tableName): bool 
+        {
+            $query = "DELETE FROM $tableName";
+            $stmt = $this->getDB()->getConnection()->prepare($query);
+            return $stmt->execute();
+        }
     }
