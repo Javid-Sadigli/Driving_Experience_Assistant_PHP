@@ -4,7 +4,7 @@
         private static $host="mysql-javidsadigli.alwaysdata.net";
         private static $username="334744_sqluser"; 
         private static $password="sqluser";
-        private static $db="javidsadigli_ufaz_db_demo";
+        private static $db="javidsadigli_driving_experience";
         private MySqlConnection $connection; 
 
         private function __construct() 

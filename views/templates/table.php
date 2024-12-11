@@ -1,3 +1,17 @@
+<?php
+    include_once("./include_all.php");
+    session_start();
+    if($_SESSION['redirect']['table'])
+    {
+        $_SESSION['redirect']['table'] = false; 
+    }
+    else 
+    {
+        header("Location: ../../controllers/get_experiences.php");
+        exit; 
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +23,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/table.css">
 
-    <script>
+    <!-- <script>
 
         function get_object_from_dataArray_by_id(objectDataArray, id, objectName)
         {
@@ -133,7 +147,7 @@
             }
         }
 
-    </script>
+    </script> -->
 
 </head>
 <body>
@@ -174,11 +188,35 @@
                     </tr>
                 </thead>
                 <tbody id="table_body">
+
+                    <?php
+                        $drivingExperienceKeys = array_keys($_SESSION['code']); 
+                        $totalKm = 0;
+                        foreach($drivingExperienceKeys as $key)
+                        {
+                            $drivingExperience = DrivingExperience::findById($_SESSION['code'][$key]);
+                            
+                            echo "<tr>";
+                            echo "<td>" . $drivingExperience->getExperienceId() . "</td>";
+                            echo "<td>" . $drivingExperience->getDate() ."</td>";
+                            echo "<td>". $drivingExperience->getStartTime() . "</td>";
+                            echo "<td>". $drivingExperience->getEndTime() . "</td>";
+                            echo "<td>". $drivingExperience->getKm() . "</td>";
+                            echo "<td>". $drivingExperience->getWeatherCondition()->getWeatherCondition() . "</td>";
+                            echo "<td>". $drivingExperience->getRoadCondition()->getRoadType() . "</td>";
+                            echo "<td>". $drivingExperience->getTrafficCondition()->getTrafficCondition() . "</td>";
+                            echo "<td>". $drivingExperience->getVisibilityCondition()->getVisibilityCondition() . "</td>";
+                            echo "</tr>";
+
+                            $totalKm += $drivingExperience->getKm();
+                        }
+
+                    ?>
                     
                 </tbody>
             </table>
 
-            <p><b id="total_km">Total KM : 0 km</b></p>
+            <p><b id="total_km">Total KM : <?php echo $totalKm ?> km</b></p>
  
             <button type="button" class="clear_button" onclick="clearList()">Clear List</button>
 

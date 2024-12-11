@@ -1,8 +1,9 @@
 <?php
-include('../util/random_pw.php');
+    session_start(); 
+    $_SESSION['code'] = array();
+    $_SESSION['redirect'] = array(); 
 
-session_start(); 
-$_SESSION['code'] = array();
+    $_SESSION['redirect']['homepage'] = true; 
 
-header('Location: ../views/templates/index.php');
-exit; 
+    header('Location: ../views/templates/index.php');
+    exit; 

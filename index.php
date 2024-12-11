@@ -1,4 +1,4 @@
 <?php
 
-header("Location: ./controllers/start_session.php");
-exit; 
+    header("Location: ./views/templates/index.php"); 
+    exit; 

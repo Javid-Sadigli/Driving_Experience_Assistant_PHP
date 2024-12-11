@@ -1,3 +1,16 @@
+<?php
+    session_start();
+    if($_SESSION['redirect']['homepage'])
+    {
+        $_SESSION['redirect']['homepage'] = false; 
+    }
+    else 
+    {
+        header("Location: ../../controllers/start_session.php");
+        exit; 
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

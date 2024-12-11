@@ -228,7 +228,7 @@
                 ) : null,
                 $row["roadId"] ? new RoadCondition(
                     $row["roadId"], 
-                    $row["roadCondition"]
+                    $row["roadType"]
                 ) : null
             );
         }
@@ -268,7 +268,7 @@
                     ) : null,
                     $row["roadId"]? new RoadCondition(
                         $row["roadId"], 
-                        $row["roadCondition"]
+                        $row["roadType"]
                     ) : null
                 );
             }
