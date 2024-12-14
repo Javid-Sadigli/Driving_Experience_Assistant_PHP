@@ -17,6 +17,8 @@
 
     $drivingExperience->save(); 
 
+    $_SESSION['save'] = array(); 
+
     header('Location: ../views/templates/table.php');
     exit; 
     
