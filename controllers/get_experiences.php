@@ -9,7 +9,7 @@
     foreach($drivingExperiences as $drivingExperience)
     {
         $key = random_pw(20); 
-        $_SESSION['code'][$key] = $drivingExperience->getExperienceId(); 
+        $_SESSION['code'][$key] = $drivingExperience; 
     }
 
     $_SESSION['redirect']['table'] = true;

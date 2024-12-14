@@ -194,7 +194,8 @@
                         $totalKm = 0;
                         foreach($drivingExperienceKeys as $key)
                         {
-                            $drivingExperience = DrivingExperience::findById($_SESSION['code'][$key]);
+                            // $drivingExperience = DrivingExperience::findById($_SESSION['code'][$key]);
+                            $drivingExperience = $_SESSION['code'][$key]; 
                             
                             echo "<tr>";
                             echo "<td>" . $drivingExperience->getExperienceId() . "</td>";

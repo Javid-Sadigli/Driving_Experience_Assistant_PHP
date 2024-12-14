@@ -1,3 +1,9 @@
+<?php
+    include_once("./include_all.php");
+
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +15,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/form.css">
 
-    <script>
+    <!-- <script>
 
         let weatherDataArray = [{"idWeather":1,"weather":"sunny"},{"idWeather":2,"weather":"rainy"},{"idWeather":3,"weather":"windy"},{"idWeather":4,"weather":"cloudy"},{"idWeather":5,"weather":"snowy"},{"idWeather":6,"weather":"stormy"}];
 
@@ -58,7 +64,7 @@
                 document.getElementById("experience_form").reset();
             }
         }
-    </script>
+    </script> -->
 
 </head>
 <body>
@@ -103,55 +109,63 @@
                 <label for="weatherId">Weather : </label>
                 <select name="weatherId" id="weatherId">
                     <option value="">-- Choose weather --</option>
+                    <?php
+                        $weathers = WeatherCondition::findAll(); 
+                        foreach ($weathers as $weather) 
+                        {
+                            echo "<option value=\"". $weather->getWeatherId() . "\">" . $weather->getWeatherCondition() . "</option>";
+                        }
+                    ?>
+
                 </select>
-                <script>
-                    weatherDataArray.forEach(function(item, index)
-                    {
-                        document.getElementById("weatherId").insertAdjacentHTML("beforeend", `<option value="${item.idWeather}">${item.weather}</option>`);
-                    });
-                </script>
 
             </div>
             <div class="road_div input_div">
                 <label for="roadId">Road : </label>
                 <select name="roadId" id="roadId">
                     <option value="">-- Choose road --</option>
+                    <?php
+                        $roads = RoadCondition::findAll();
+                        foreach ($roads as $road)
+                        {
+                            echo "<option value=\"". $road->getRoadId() . "\">" . $road->getRoadType() . "</option>";
+                        }
+                    ?>
+
                 </select>
-                <script>
-                    roadDataArray.forEach(function(item, index)
-                    {
-                        document.getElementById("roadId").insertAdjacentHTML("beforeend", `<option value="${item.idRoad}">${item.roadCondition}</option>`);
-                    });
-                </script>
             </div>
 
             <div class="traffic_div input_div">
                 <label for="trafficId">Traffic : </label>
                 <select name="trafficId" id="trafficId">
                     <option value="">-- Choose traffic --</option>
+                    <?php 
+                        $traffics = TrafficCondition::findAll();
+                        foreach ($traffics as $traffic)
+                        {
+                            echo "<option value=\"". $traffic->getTrafficId() . "\">" . $traffic->getTrafficCondition() . "</option>";
+                        }
+                    ?>
+
                 </select>
-                <script>
-                    trafficDataArray.forEach(function(item, index)
-                    {
-                        document.getElementById("trafficId").insertAdjacentHTML("beforeend", `<option value="${item.idTraffic}">${item.traffic}</option>`);
-                    });
-                </script>
             </div>
 
             <div class="visibility_div input_div">
                 <label for="visibilityId">Visibility : </label>
                 <select name="visibilityId" id="visibilityId">
                     <option value="">-- Choose visibility --</option>
+                    <?php
+                        $visibilities = VisibilityCondition::findAll(); 
+                        foreach ($visibilities as $visibility)
+                        {
+                            echo "<option value=\"". $visibility->getVisibilityId() . "\">" . $visibility->getVisibilityCondition() . "</option>";
+                        }
+                    ?>
+
                 </select>
-                <script>
-                    visibilityDataArray.forEach(function(item, index)
-                    {
-                        document.getElementById("visibilityId").insertAdjacentHTML("beforeend", `<option value="${item.idVisibility}">${item.visibility}</option>`)
-                    });
-                </script>
             </div>
             
-            <button type="submit" onclick="saveExperience()">Submit</button>
+            <button type="submit" >Submit</button>
         </form>
     </main>
 

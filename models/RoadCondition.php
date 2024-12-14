@@ -46,7 +46,7 @@
 
         public static function findAll(): array
         {
-            $rows = self::$dbConnection->selectAll(self::$dbTableName);
+            $rows = self::getDbConnection()->selectAll(self::$dbTableName);
 
             $result = []; 
             foreach ($rows as $row)
@@ -61,7 +61,7 @@
 
         public static function findById(int $roadId):self
         {
-            $row = self::$dbConnection->selectOneByPrimaryKey(
+            $row = self::getDbConnection()->selectOneByPrimaryKey(
                 self::$dbTableName, self::$primaryKeyName, $roadId
             ); 
             return new self(
