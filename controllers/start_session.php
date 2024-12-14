@@ -3,6 +3,7 @@
     $_SESSION['code'] = array();
     $_SESSION['redirect'] = array(); 
     $_SESSION['save'] = array();
+    $_SESSION['action'] = array();
 
     $_SESSION['redirect']['homepage'] = true; 
 

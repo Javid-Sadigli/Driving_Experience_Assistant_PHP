@@ -23,6 +23,14 @@ th, td{
     width: 100px;
 }
 
+.clear-form
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .clear_button{
     color: red;
     border: 2px solid red;

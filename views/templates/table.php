@@ -1,6 +1,16 @@
 <?php
     include_once("./include_all.php");
     session_start();
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        if($_SESSION['action'][$_POST['action_key']] == 'delete-all')
+        {
+            header('Location: ../../controllers/delete_all.php');
+            exit;
+        }
+    }
+
     if($_SESSION['redirect']['table'])
     {
         $_SESSION['redirect']['table'] = false; 
@@ -207,7 +217,7 @@
                             echo "<td>". ($drivingExperience->getRoadCondition() ? $drivingExperience->getRoadCondition()->getRoadType() : 'NULL') . "</td>";
                             echo "<td>". ($drivingExperience->getTrafficCondition() ? $drivingExperience->getTrafficCondition()->getTrafficCondition() : 'NULL') . "</td>";
                             echo "<td>". ($drivingExperience->getVisibilityCondition() ? $drivingExperience->getVisibilityCondition()->getVisibilityCondition() : 'NULL') . "</td>";
-                            echo "</tr>";
+                            echo "</tr>\n";
 
                             $totalKm += $drivingExperience->getKm();
                         }
@@ -219,7 +229,14 @@
 
             <p><b id="total_km">Total KM : <?php echo $totalKm ?> km</b></p>
  
-            <button type="button" class="clear_button" onclick="clearList()">Clear List</button>
+            <form method="post" class="clear-form">
+                <?php
+                    $key = random_pw(10); 
+                    $_SESSION['action'][$key] = 'delete-all';
+                    echo '<input type="hidden" value="' . $key . '" name="action_key">';
+                ?>
+                <button type="submit" class="clear_button">Clear List</button>
+            </form>
 
         </div>
         
