@@ -2,6 +2,26 @@
     include_once("./include_all.php");
 
     session_start();
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        $drivingExperience = array();
+        $drivingExperience['date'] = $_POST['date'];
+        $drivingExperience['start_time'] = $_POST['start_time'];
+        $drivingExperience['end_time'] = $_POST['end_time'];
+        $drivingExperience['km'] = intval($_POST['km']);
+        $drivingExperience['weatherId'] = isset($_POST['weatherId'])? intval($_POST['weatherId']) : null;
+        $drivingExperience['roadId'] = isset($_POST['roadId'])? intval($_POST['roadId']) : null;
+        $drivingExperience['trafficId'] = isset($_POST['trafficId'])? intval($_POST['trafficId']) : null;
+        $drivingExperience['visibilityId'] = isset($_POST['visibilityId'])? intval($_POST['visibilityId']) : null;
+
+        $_SESSION['save'] = $drivingExperience; 
+
+        header('Location: ../../controllers/add_experience.php');
+        exit;
+    }
+
+    
 ?>
 
 <!DOCTYPE html>

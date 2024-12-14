@@ -203,10 +203,10 @@
                             echo "<td>". $drivingExperience->getStartTime() . "</td>";
                             echo "<td>". $drivingExperience->getEndTime() . "</td>";
                             echo "<td>". $drivingExperience->getKm() . "</td>";
-                            echo "<td>". $drivingExperience->getWeatherCondition()->getWeatherCondition() . "</td>";
-                            echo "<td>". $drivingExperience->getRoadCondition()->getRoadType() . "</td>";
-                            echo "<td>". $drivingExperience->getTrafficCondition()->getTrafficCondition() . "</td>";
-                            echo "<td>". $drivingExperience->getVisibilityCondition()->getVisibilityCondition() . "</td>";
+                            echo "<td>". ($drivingExperience->getWeatherCondition() ? $drivingExperience->getWeatherCondition()->getWeatherCondition() : 'NULL') . "</td>";
+                            echo "<td>". ($drivingExperience->getRoadCondition() ? $drivingExperience->getRoadCondition()->getRoadType() : 'NULL') . "</td>";
+                            echo "<td>". ($drivingExperience->getTrafficCondition() ? $drivingExperience->getTrafficCondition()->getTrafficCondition() : 'NULL') . "</td>";
+                            echo "<td>". ($drivingExperience->getVisibilityCondition() ? $drivingExperience->getVisibilityCondition()->getVisibilityCondition() : 'NULL') . "</td>";
                             echo "</tr>";
 
                             $totalKm += $drivingExperience->getKm();

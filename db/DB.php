@@ -116,13 +116,13 @@
             return $stmt->execute();
         }
 
-        public function selectAllWithJoins(string $baseTable, array $joins) : array 
+        public function selectAllWithLeftJoins(string $baseTable, array $joins) : array 
         {
             $query = "SELECT * FROM $baseTable";
         
             foreach ($joins as $joinTable => $onCondition) 
             {
-                $query .= " JOIN $joinTable ON $onCondition";
+                $query .= " LEFT JOIN $joinTable ON $onCondition";
             }
         
             $stmt = $this->getDB()->getConnection()->prepare($query);

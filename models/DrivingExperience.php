@@ -242,7 +242,7 @@
                 VisibilityCondition::getDbTableName() => self::$dbTableName. ".visibilityId = " . VisibilityCondition::getDbTableName(). "." . VisibilityCondition::getPrimaryKeyName()   
             ]; 
 
-            $rows = self::getDbConnection()->selectAllWithJoins(self::$dbTableName, $joins);
+            $rows = self::getDbConnection()->selectAllWithLeftJoins(self::$dbTableName, $joins);
 
             $result = []; 
 

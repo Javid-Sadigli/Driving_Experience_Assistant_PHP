@@ -2,6 +2,7 @@
     session_start(); 
     $_SESSION['code'] = array();
     $_SESSION['redirect'] = array(); 
+    $_SESSION['save'] = array();
 
     $_SESSION['redirect']['homepage'] = true; 
 
