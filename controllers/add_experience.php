@@ -5,19 +5,19 @@
 
     $drivingExperience = new DrivingExperience(
         experienceId: null, 
-        date: $_SESSION['save']['date'],
-        startTime: $_SESSION['save']['start_time'],
-        endTime: $_SESSION['save']['end_time'],
-        km: $_SESSION['save']['km'], 
-        weatherId: $_SESSION['save']['weatherId'],
-        roadId: $_SESSION['save']['roadId'],
-        trafficId: $_SESSION['save']['trafficId'],
-        visibilityId: $_SESSION['save']['visibilityId']
+        date: $_SESSION['pass-to-controller']['save']['date'],
+        startTime: $_SESSION['pass-to-controller']['save']['start_time'],
+        endTime: $_SESSION['pass-to-controller']['save']['end_time'],
+        km: $_SESSION['pass-to-controller']['save']['km'], 
+        weatherId: $_SESSION['pass-to-controller']['save']['weatherId'],
+        roadId: $_SESSION['pass-to-controller']['save']['roadId'],
+        trafficId: $_SESSION['pass-to-controller']['save']['trafficId'],
+        visibilityId: $_SESSION['pass-to-controller']['save']['visibilityId']
     );
 
     $drivingExperience->save(); 
 
-    $_SESSION['save'] = array(); 
+    $_SESSION['pass-to-controller']['save'] = null; 
 
     header('Location: ../views/templates/table.php');
     exit; 

@@ -1,9 +1,9 @@
 <?php
     session_start(); 
-    $_SESSION['code'] = array();
+    $_SESSION['experiences'] = array();
     $_SESSION['redirect'] = array(); 
-    $_SESSION['save'] = array();
     $_SESSION['action'] = array();
+    $_SESSION['pass-to-controller'] = array();
 
     $_SESSION['redirect']['homepage'] = true; 
 

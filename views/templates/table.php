@@ -200,12 +200,12 @@
                 <tbody id="table_body">
 
                     <?php
-                        $drivingExperienceKeys = array_keys($_SESSION['code']); 
+                        $drivingExperienceKeys = array_keys($_SESSION['experiences']); 
                         $totalKm = 0;
                         foreach($drivingExperienceKeys as $key)
                         {
                             // $drivingExperience = DrivingExperience::findById($_SESSION['code'][$key]);
-                            $drivingExperience = $_SESSION['code'][$key]; 
+                            $drivingExperience = $_SESSION['experiences'][$key]; 
                             
                             echo "<tr>";
                             echo "<td>" . $drivingExperience->getExperienceId() . "</td>";
