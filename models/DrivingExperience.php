@@ -109,7 +109,7 @@
             return $this->weatherCondition;
         }
 
-        public function setWeatherCondition(WeatherCondition $weatherCondition): void
+        public function setWeatherCondition(?WeatherCondition $weatherCondition): void
         {
             $this->weatherCondition = $weatherCondition;
         }
@@ -124,7 +124,7 @@
             return $this->trafficCondition;
         }
 
-        public function setTrafficCondition(TrafficCondition $trafficCondition): void
+        public function setTrafficCondition(?TrafficCondition $trafficCondition): void
         {
             $this->trafficCondition = $trafficCondition;
         }
@@ -139,7 +139,7 @@
             return $this->visibilityCondition;
         }
 
-        public function setVisibilityCondition(VisibilityCondition $visibilityCondition): void
+        public function setVisibilityCondition(?VisibilityCondition $visibilityCondition): void
         {
             $this->visibilityCondition = $visibilityCondition;
         }
@@ -154,7 +154,7 @@
             return $this->roadCondition;
         }
 
-        public function setRoadCondition(RoadCondition $roadCondition): void
+        public function setRoadCondition(?RoadCondition $roadCondition): void
         {
             $this->roadCondition = $roadCondition;
         }
@@ -201,7 +201,7 @@
                 VisibilityCondition::getDbTableName() => self::$dbTableName. ".visibilityId = " . VisibilityCondition::getDbTableName(). "." . VisibilityCondition::getPrimaryKeyName()   
             ]; 
 
-            $row = self::getDbConnection()->selectOneByPrimaryKeyWithJoins(
+            $row = self::getDbConnection()->selectOneByPrimaryKeyWithLeftJoins(
                 self::$dbTableName,
                 self::$primaryKeyName, 
                 $experienceId,

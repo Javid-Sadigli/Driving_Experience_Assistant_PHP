@@ -4,6 +4,8 @@
     $_SESSION['redirect'] = array(); 
     $_SESSION['action'] = array();
     $_SESSION['pass-to-controller'] = array();
+    $_SESSION['pass-to-views'] = array();
+    $_SESSION['pass-by-controller'] = array();
 
     $_SESSION['redirect']['homepage'] = true; 
 

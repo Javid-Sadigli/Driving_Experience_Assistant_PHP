@@ -209,7 +209,7 @@
                             
                             echo "<tr>";
                             echo "<td>" . $drivingExperience->getExperienceId() . "</td>";
-                            echo "<td>" . $drivingExperience->getDate() ."</td>";
+                            echo "<td class=\"date-td\">" . $drivingExperience->getDate() ."</td>";
                             echo "<td>". $drivingExperience->getStartTime() . "</td>";
                             echo "<td>". $drivingExperience->getEndTime() . "</td>";
                             echo "<td>". $drivingExperience->getKm() . "</td>";
@@ -217,7 +217,10 @@
                             echo "<td>". ($drivingExperience->getRoadCondition() ? $drivingExperience->getRoadCondition()->getRoadType() : 'NULL') . "</td>";
                             echo "<td>". ($drivingExperience->getTrafficCondition() ? $drivingExperience->getTrafficCondition()->getTrafficCondition() : 'NULL') . "</td>";
                             echo "<td>". ($drivingExperience->getVisibilityCondition() ? $drivingExperience->getVisibilityCondition()->getVisibilityCondition() : 'NULL') . "</td>";
-                            echo "</tr>\n";
+                            echo '<td class="edit-td"><a href="./edit-form.php?key='. $key . '" class="edit-button">Edit</a></td>';
+                            echo "</tr>";
+                            echo "
+                    ";
 
                             $totalKm += $drivingExperience->getKm();
                         }
@@ -235,6 +238,7 @@
                     $_SESSION['action'][$key] = 'delete-all';
                     echo '<input type="hidden" value="' . $key . '" name="action_key">';
                 ?>
+                
                 <button type="submit" class="clear_button">Clear List</button>
             </form>
 

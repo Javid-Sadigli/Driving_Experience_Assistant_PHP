@@ -131,13 +131,13 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function selectOneByPrimaryKeyWithJoins(string $baseTable, string $primaryKeyName, $primaryKeyValue, array $joins): array 
+        public function selectOneByPrimaryKeyWithLeftJoins(string $baseTable, string $primaryKeyName, $primaryKeyValue, array $joins): array 
         {
             $query = "SELECT * FROM $baseTable";
 
             foreach ($joins as $joinTable => $onCondition) 
             {
-                $query .= " JOIN $joinTable ON $onCondition";
+                $query .= " LEFT JOIN $joinTable ON $onCondition";
             }
 
             $query .= " WHERE $baseTable.$primaryKeyName = :primaryKey LIMIT 1";

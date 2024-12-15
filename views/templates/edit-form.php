@@ -8,6 +8,7 @@
         if($_SESSION['action'][$_POST['action_key']] == 'update')
         {
             $drivingExperience = array();
+            $drivingExperience['experience_id'] = $_SESSION['experiences'][$_POST['experience_key']]->getExperienceId();
             $drivingExperience['date'] = $_POST['date'];
             $drivingExperience['start_time'] = $_POST['start_time'];
             $drivingExperience['end_time'] = $_POST['end_time'];
@@ -17,9 +18,9 @@
             $drivingExperience['trafficId'] = isset($_POST['trafficId'])? intval($_POST['trafficId']) : null;
             $drivingExperience['visibilityId'] = isset($_POST['visibilityId'])? intval($_POST['visibilityId']) : null;
 
-            $_SESSION['save'] = $drivingExperience; 
+            $_SESSION['pass-to-controller']['save'] = $drivingExperience; 
 
-            header('Location: ../../controllers/add_experience.php');
+            header('Location: ../../controllers/update_experience.php');
             exit;
         }
     }
@@ -30,12 +31,12 @@
     }
     else 
     {
-        $_SESSION['pass-to-controller']['experience-id'] = $_SESSION['experiences'][$_GET['key']]->getExperienceId();
+        $_SESSION['pass-to-controller']['key'] = $_GET['key'];
         header("Location: ../../controllers/get_experience_by_id.php");
         exit; 
     }
 
-    
+    $drivingExperience = $_SESSION['pass-by-controller']['driving-experience'];
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +46,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Javid Sadigli">
     <link rel="shortcut icon" href="https://static.thenounproject.com/png/386481-200.png">
-    <title>New Experience</title>
+    <title>Update Experience</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/edit-form.css">
 
@@ -74,19 +75,19 @@
         <form method="post" id="experience_form">
             <div class="date_div input_div">
                 <label for="date">Enter date : </label>
-                <input type="date" name="date" id="date" required>
+                <input type="date" name="date" id="date" required value="<?php echo $drivingExperience->getDate(); ?>">
             </div>
             <div class="start_time_div input_div">
                 <label for="start_time">Start time : </label>
-                <input type="text" name="start_time" id="start_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" required>
+                <input type="text" name="start_time" id="start_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" required value="<?php echo $drivingExperience->getStartTime(); ?>">
             </div>
             <div class="end_time_div input_div">
                 <label for="end_time">End time : </label>
-                <input type="text" name="end_time" id="end_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" required>
+                <input type="text" name="end_time" id="end_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM" required value="<?php echo $drivingExperience->getEndTime(); ?>">
             </div>
             <div class="km_div input_div">
                 <label for="km">KM : </label>
-                <input type="number" name="km" id="km" placeholder="km" step="0.01" required>
+                <input type="number" name="km" id="km" placeholder="km" step="0.01" required value="<?php echo $drivingExperience->getKm(); ?>">
             </div>
             <div class="weather_div input_div">
                 <label for="weatherId">Weather : </label>
@@ -94,9 +95,26 @@
                     <option value="">-- Choose weather --</option>
                     <?php
                         $weathers = WeatherCondition::findAll(); 
-                        foreach ($weathers as $weather) 
+                        if($drivingExperience->getWeatherCondition() == null)
                         {
-                            echo "<option value=\"". $weather->getWeatherId() . "\">" . $weather->getWeatherCondition() . "</option>";
+                            foreach ($weathers as $weather) 
+                            {
+                                echo "<option value=\"". $weather->getWeatherId() . "\">" . $weather->getWeatherCondition() . "</option>";
+                            }
+                        }
+                        else 
+                        {
+                            foreach ($weathers as $weather)
+                            {
+                                if($weather->getWeatherId() == $drivingExperience->getWeatherCondition()->getWeatherId())
+                                {
+                                    echo "<option value=\"". $weather->getWeatherId() . "\" selected>" . $weather->getWeatherCondition() . "</option>";
+                                }
+                                else 
+                                {
+                                    echo "<option value=\"". $weather->getWeatherId() . "\">" . $weather->getWeatherCondition() . "</option>";
+                                }
+                            }
                         }
                     ?>
 
@@ -109,9 +127,26 @@
                     <option value="">-- Choose road --</option>
                     <?php
                         $roads = RoadCondition::findAll();
-                        foreach ($roads as $road)
+                        if ($drivingExperience->getRoadCondition() == null) 
                         {
-                            echo "<option value=\"". $road->getRoadId() . "\">" . $road->getRoadType() . "</option>";
+                            foreach ($roads as $road)
+                            {
+                                echo "<option value=\"". $road->getRoadId() . "\">" . $road->getRoadType() . "</option>";
+                            }
+                        }
+                        else 
+                        {
+                            foreach ($roads as $road)
+                            {
+                                if($road->getRoadId() == $drivingExperience->getRoadCondition()->getRoadId())
+                                {
+                                    echo "<option value=\"". $road->getRoadId() . "\" selected>" . $road->getRoadType() . "</option>";
+                                }
+                                else 
+                                {
+                                    echo "<option value=\"". $road->getRoadId() . "\">" . $road->getRoadType() . "</option>";
+                                }
+                            }
                         }
                     ?>
 
@@ -124,9 +159,26 @@
                     <option value="">-- Choose traffic --</option>
                     <?php 
                         $traffics = TrafficCondition::findAll();
-                        foreach ($traffics as $traffic)
+                        if ($drivingExperience->getTrafficCondition() == null)
                         {
-                            echo "<option value=\"". $traffic->getTrafficId() . "\">" . $traffic->getTrafficCondition() . "</option>";
+                            foreach ($traffics as $traffic)
+                            {
+                                echo "<option value=\"". $traffic->getTrafficId() . "\">" . $traffic->getTrafficCondition() . "</option>";
+                            }   
+                        }
+                        else
+                        {
+                            foreach ($traffics as $traffic)
+                            {
+                                if($traffic->getTrafficId() == $drivingExperience->getTrafficCondition()->getTrafficId())
+                                {
+                                    echo "<option value=\"". $traffic->getTrafficId() . "\" selected>" . $traffic->getTrafficCondition() . "</option>";
+                                }
+                                else 
+                                {
+                                    echo "<option value=\"". $traffic->getTrafficId() . "\">" . $traffic->getTrafficCondition() . "</option>";
+                                }
+                            }
                         }
                     ?>
 
@@ -139,14 +191,36 @@
                     <option value="">-- Choose visibility --</option>
                     <?php
                         $visibilities = VisibilityCondition::findAll(); 
-                        foreach ($visibilities as $visibility)
+                        if($drivingExperience->getVisibilityCondition() == null)
                         {
-                            echo "<option value=\"". $visibility->getVisibilityId() . "\">" . $visibility->getVisibilityCondition() . "</option>";
+                            foreach ($visibilities as $visibility)
+                            {
+                                echo "<option value=\"". $visibility->getVisibilityId() . "\">" . $visibility->getVisibilityCondition() . "</option>";
+                            }
+                        }
+                        else
+                        {
+                            foreach ($visibilities as $visibility)
+                            {
+                                if($visibility->getVisibilityId() == $drivingExperience->getVisibilityCondition()->getVisibilityId())
+                                {
+                                    echo "<option value=\"". $visibility->getVisibilityId(). "\" selected>". $visibility->getVisibilityCondition(). "</option>";
+                                }
+                                else 
+                                {
+                                    echo "<option value=\"". $visibility->getVisibilityId(). "\">". $visibility->getVisibilityCondition(). "</option>";
+                                }
+                            }
                         }
                     ?>
 
                 </select>
             </div>
+
+            <?php
+                $key = $_GET['key']; 
+                echo '<input type="hidden" value="' . $key . '" name="experience_key">';
+            ?>
 
             <?php
                 $key = random_pw(10); 

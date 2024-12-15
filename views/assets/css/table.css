@@ -23,6 +23,30 @@ th, td{
     width: 100px;
 }
 
+ .edit-td
+{
+    text-align: center;
+    vertical-align: middle;
+    width: 70px;
+} 
+
+.date-td
+{
+    min-width: 100px;
+}
+
+.edit-button{
+    background-color: darkblue;
+    color: white;
+    border: 1px solid white;
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .clear-form
 {
     display: flex;
