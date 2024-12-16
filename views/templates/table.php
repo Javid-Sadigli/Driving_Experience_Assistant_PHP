@@ -9,6 +9,12 @@
             header('Location: ../../controllers/delete_all.php');
             exit;
         }
+        if($_SESSION['action'][$_POST['action_key']] == 'delete-one')
+        {
+            $_SESSION['pass-to-controller']['delete-key'] = $_POST['experience_key']; 
+            header('Location: ../../controllers/delete_one.php');
+            exit;
+        }
     }
 
     if($_SESSION['redirect']['table'])
@@ -186,7 +192,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <!-- <th>ID</th> -->
                         <th>Date</th>
                         <th>Start time</th>
                         <th>End time</th>
@@ -202,13 +208,18 @@
                     <?php
                         $drivingExperienceKeys = array_keys($_SESSION['experiences']); 
                         $totalKm = 0;
+
+                        $actionKey = random_pw(10);
+                        $_SESSION['action'][$actionKey] = 'delete-one';
+
                         foreach($drivingExperienceKeys as $key)
                         {
-                            // $drivingExperience = DrivingExperience::findById($_SESSION['code'][$key]);
                             $drivingExperience = $_SESSION['experiences'][$key]; 
                             
+                            echo "
+                            ";
                             echo "<tr>";
-                            echo "<td>" . $drivingExperience->getExperienceId() . "</td>";
+                            // echo "<td>" . $drivingExperience->getExperienceId() . "</td>";
                             echo "<td class=\"date-td\">" . $drivingExperience->getDate() ."</td>";
                             echo "<td>". $drivingExperience->getStartTime() . "</td>";
                             echo "<td>". $drivingExperience->getEndTime() . "</td>";
@@ -218,14 +229,25 @@
                             echo "<td>". ($drivingExperience->getTrafficCondition() ? $drivingExperience->getTrafficCondition()->getTrafficCondition() : 'NULL') . "</td>";
                             echo "<td>". ($drivingExperience->getVisibilityCondition() ? $drivingExperience->getVisibilityCondition()->getVisibilityCondition() : 'NULL') . "</td>";
                             echo '<td class="edit-td"><a href="./edit-form.php?key='. $key . '" class="edit-button">Edit</a></td>';
+                            echo "
+                                <td class=\"delete-td\">
+                                    <form method=\"post\" class=\"delete-form\">
+                                        <input type=\"hidden\" value=\"$actionKey\" name=\"action_key\">
+                                        <input type=\"hidden\" name=\"experience_key\" value=\"$key\">
+                                        <button type=\"submit\" class=\"delete-button\">Delete</button>
+                                    </form>
+                                </td>
+                            ";
                             echo "</tr>";
                             echo "
-                    ";
+                            ";
 
                             $totalKm += $drivingExperience->getKm();
                         }
 
                     ?>
+                    
+                    
                     
                 </tbody>
             </table>

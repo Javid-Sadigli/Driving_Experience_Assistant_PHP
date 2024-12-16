@@ -47,6 +47,26 @@ th, td{
     align-items: center;
 }
 
+.delete-button{
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    border: 1px solid white;
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-td
+{
+    text-align: center;
+    vertical-align: middle;
+    width: 70px;
+} 
+
 .clear-form
 {
     display: flex;
