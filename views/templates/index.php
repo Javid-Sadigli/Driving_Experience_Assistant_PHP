@@ -1,13 +1,26 @@
 <?php
-    session_start();
-    if($_SESSION['redirect']['homepage'])
+    try
     {
-        $_SESSION['redirect']['homepage'] = false; 
+        session_start();
+        if($_SESSION['redirect']['homepage'])
+        {
+            $_SESSION['redirect']['homepage'] = false; 
+        }
+        else 
+        {
+            header("Location: ../../controllers/start_session.php");
+            exit; 
+        }
     }
-    else 
+    catch(Exception $e)
     {
-        header("Location: ../../controllers/start_session.php");
-        exit; 
+        header('Location: ./error.html');
+        exit;
+    }
+    catch(Error $e)
+    {
+        header('Location: ./error.html');
+        exit;
     }
 ?>
 

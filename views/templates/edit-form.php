@@ -1,42 +1,55 @@
 <?php
     include_once("./include_all.php");
 
-    session_start();
-
-    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    try
     {
-        if($_SESSION['action'][$_POST['action_key']] == 'update')
+        session_start();
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            $drivingExperience = array();
-            $drivingExperience['experience_id'] = $_SESSION['experiences'][$_POST['experience_key']]->getExperienceId();
-            $drivingExperience['date'] = $_POST['date'];
-            $drivingExperience['start_time'] = $_POST['start_time'];
-            $drivingExperience['end_time'] = $_POST['end_time'];
-            $drivingExperience['km'] = intval($_POST['km']);
-            $drivingExperience['weatherId'] = isset($_POST['weatherId'])? intval($_POST['weatherId']) : null;
-            $drivingExperience['roadId'] = isset($_POST['roadId'])? intval($_POST['roadId']) : null;
-            $drivingExperience['trafficId'] = isset($_POST['trafficId'])? intval($_POST['trafficId']) : null;
-            $drivingExperience['visibilityId'] = isset($_POST['visibilityId'])? intval($_POST['visibilityId']) : null;
+            if($_SESSION['action'][$_POST['action_key']] == 'update')
+            {
+                $drivingExperience = array();
+                $drivingExperience['experience_id'] = $_SESSION['experiences'][$_POST['experience_key']]->getExperienceId();
+                $drivingExperience['date'] = $_POST['date'];
+                $drivingExperience['start_time'] = $_POST['start_time'];
+                $drivingExperience['end_time'] = $_POST['end_time'];
+                $drivingExperience['km'] = intval($_POST['km']);
+                $drivingExperience['weatherId'] = isset($_POST['weatherId'])? intval($_POST['weatherId']) : null;
+                $drivingExperience['roadId'] = isset($_POST['roadId'])? intval($_POST['roadId']) : null;
+                $drivingExperience['trafficId'] = isset($_POST['trafficId'])? intval($_POST['trafficId']) : null;
+                $drivingExperience['visibilityId'] = isset($_POST['visibilityId'])? intval($_POST['visibilityId']) : null;
 
-            $_SESSION['pass-to-controller']['save'] = $drivingExperience; 
+                $_SESSION['pass-to-controller']['save'] = $drivingExperience; 
 
-            header('Location: ../../controllers/update_experience.php');
-            exit;
+                header('Location: ../../controllers/update_experience.php');
+                exit;
+            }
         }
-    }
 
-    if($_SESSION['redirect']['edit-form'])
-    {
-        $_SESSION['redirect']['edit-form'] = false; 
-    }
-    else 
-    {
-        $_SESSION['pass-to-controller']['key'] = $_GET['key'];
-        header("Location: ../../controllers/get_experience_by_id.php");
-        exit; 
-    }
+        if($_SESSION['redirect']['edit-form'])
+        {
+            $_SESSION['redirect']['edit-form'] = false; 
+        }
+        else 
+        {
+            $_SESSION['pass-to-controller']['key'] = $_GET['key'];
+            header("Location: ../../controllers/get_experience_by_id.php");
+            exit; 
+        }
 
-    $drivingExperience = $_SESSION['pass-by-controller']['driving-experience'];
+        $drivingExperience = $_SESSION['pass-by-controller']['driving-experience'];
+    }
+    catch(Exception $e)
+    {
+        header('Location: ./error.html');
+        exit;
+    }
+    catch(Error $e)
+    {
+        header('Location: ./error.html');
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -94,27 +107,40 @@
                 <select name="weatherId" id="weatherId">
                     <option value="">-- Choose weather --</option>
                     <?php
-                        $weathers = WeatherCondition::findAll(); 
-                        if($drivingExperience->getWeatherCondition() == null)
+                        try
                         {
-                            foreach ($weathers as $weather) 
+                            $weathers = WeatherCondition::findAll(); 
+                            if($drivingExperience->getWeatherCondition() == null)
                             {
-                                echo "<option value=\"". $weather->getWeatherId() . "\">" . $weather->getWeatherCondition() . "</option>";
-                            }
-                        }
-                        else 
-                        {
-                            foreach ($weathers as $weather)
-                            {
-                                if($weather->getWeatherId() == $drivingExperience->getWeatherCondition()->getWeatherId())
-                                {
-                                    echo "<option value=\"". $weather->getWeatherId() . "\" selected>" . $weather->getWeatherCondition() . "</option>";
-                                }
-                                else 
+                                foreach ($weathers as $weather) 
                                 {
                                     echo "<option value=\"". $weather->getWeatherId() . "\">" . $weather->getWeatherCondition() . "</option>";
                                 }
                             }
+                            else 
+                            {
+                                foreach ($weathers as $weather)
+                                {
+                                    if($weather->getWeatherId() == $drivingExperience->getWeatherCondition()->getWeatherId())
+                                    {
+                                        echo "<option value=\"". $weather->getWeatherId() . "\" selected>" . $weather->getWeatherCondition() . "</option>";
+                                    }
+                                    else 
+                                    {
+                                        echo "<option value=\"". $weather->getWeatherId() . "\">" . $weather->getWeatherCondition() . "</option>";
+                                    }
+                                }
+                            }
+                        }
+                        catch(Exception $e)
+                        {
+                            header('Location:./error.html');
+                            exit;
+                        }
+                        catch(Error $e)
+                        {
+                            header('Location:./error.html');
+                            exit;
                         }
                     ?>
 
@@ -126,27 +152,40 @@
                 <select name="roadId" id="roadId">
                     <option value="">-- Choose road --</option>
                     <?php
-                        $roads = RoadCondition::findAll();
-                        if ($drivingExperience->getRoadCondition() == null) 
+                        try
                         {
-                            foreach ($roads as $road)
+                            $roads = RoadCondition::findAll();
+                            if ($drivingExperience->getRoadCondition() == null) 
                             {
-                                echo "<option value=\"". $road->getRoadId() . "\">" . $road->getRoadType() . "</option>";
-                            }
-                        }
-                        else 
-                        {
-                            foreach ($roads as $road)
-                            {
-                                if($road->getRoadId() == $drivingExperience->getRoadCondition()->getRoadId())
-                                {
-                                    echo "<option value=\"". $road->getRoadId() . "\" selected>" . $road->getRoadType() . "</option>";
-                                }
-                                else 
+                                foreach ($roads as $road)
                                 {
                                     echo "<option value=\"". $road->getRoadId() . "\">" . $road->getRoadType() . "</option>";
                                 }
                             }
+                            else 
+                            {
+                                foreach ($roads as $road)
+                                {
+                                    if($road->getRoadId() == $drivingExperience->getRoadCondition()->getRoadId())
+                                    {
+                                        echo "<option value=\"". $road->getRoadId() . "\" selected>" . $road->getRoadType() . "</option>";
+                                    }
+                                    else 
+                                    {
+                                        echo "<option value=\"". $road->getRoadId() . "\">" . $road->getRoadType() . "</option>";
+                                    }
+                                }
+                            }
+                        }
+                        catch(Exception $e)
+                        {
+                            header('Location:./error.html');
+                            exit;
+                        }
+                        catch(Error $e)
+                        {
+                            header('Location:./error.html');
+                            exit;
                         }
                     ?>
 
@@ -158,27 +197,40 @@
                 <select name="trafficId" id="trafficId">
                     <option value="">-- Choose traffic --</option>
                     <?php 
-                        $traffics = TrafficCondition::findAll();
-                        if ($drivingExperience->getTrafficCondition() == null)
+                        try 
                         {
-                            foreach ($traffics as $traffic)
+                            $traffics = TrafficCondition::findAll();
+                            if ($drivingExperience->getTrafficCondition() == null)
                             {
-                                echo "<option value=\"". $traffic->getTrafficId() . "\">" . $traffic->getTrafficCondition() . "</option>";
-                            }   
-                        }
-                        else
-                        {
-                            foreach ($traffics as $traffic)
-                            {
-                                if($traffic->getTrafficId() == $drivingExperience->getTrafficCondition()->getTrafficId())
-                                {
-                                    echo "<option value=\"". $traffic->getTrafficId() . "\" selected>" . $traffic->getTrafficCondition() . "</option>";
-                                }
-                                else 
+                                foreach ($traffics as $traffic)
                                 {
                                     echo "<option value=\"". $traffic->getTrafficId() . "\">" . $traffic->getTrafficCondition() . "</option>";
+                                }   
+                            }
+                            else
+                            {
+                                foreach ($traffics as $traffic)
+                                {
+                                    if($traffic->getTrafficId() == $drivingExperience->getTrafficCondition()->getTrafficId())
+                                    {
+                                        echo "<option value=\"". $traffic->getTrafficId() . "\" selected>" . $traffic->getTrafficCondition() . "</option>";
+                                    }
+                                    else 
+                                    {
+                                        echo "<option value=\"". $traffic->getTrafficId() . "\">" . $traffic->getTrafficCondition() . "</option>";
+                                    }
                                 }
                             }
+                        }
+                        catch(Exception $e)
+                        {
+                            header('Location:./error.html');
+                            exit;
+                        }
+                        catch(Error $e)
+                        {
+                            header('Location:./error.html');
+                            exit;
                         }
                     ?>
 
@@ -190,27 +242,40 @@
                 <select name="visibilityId" id="visibilityId">
                     <option value="">-- Choose visibility --</option>
                     <?php
-                        $visibilities = VisibilityCondition::findAll(); 
-                        if($drivingExperience->getVisibilityCondition() == null)
+                        try
                         {
-                            foreach ($visibilities as $visibility)
+                            $visibilities = VisibilityCondition::findAll(); 
+                            if($drivingExperience->getVisibilityCondition() == null)
                             {
-                                echo "<option value=\"". $visibility->getVisibilityId() . "\">" . $visibility->getVisibilityCondition() . "</option>";
+                                foreach ($visibilities as $visibility)
+                                {
+                                    echo "<option value=\"". $visibility->getVisibilityId() . "\">" . $visibility->getVisibilityCondition() . "</option>";
+                                }
+                            }
+                            else
+                            {
+                                foreach ($visibilities as $visibility)
+                                {
+                                    if($visibility->getVisibilityId() == $drivingExperience->getVisibilityCondition()->getVisibilityId())
+                                    {
+                                        echo "<option value=\"". $visibility->getVisibilityId(). "\" selected>". $visibility->getVisibilityCondition(). "</option>";
+                                    }
+                                    else 
+                                    {
+                                        echo "<option value=\"". $visibility->getVisibilityId(). "\">". $visibility->getVisibilityCondition(). "</option>";
+                                    }
+                                }
                             }
                         }
-                        else
+                        catch(Exception $e)
                         {
-                            foreach ($visibilities as $visibility)
-                            {
-                                if($visibility->getVisibilityId() == $drivingExperience->getVisibilityCondition()->getVisibilityId())
-                                {
-                                    echo "<option value=\"". $visibility->getVisibilityId(). "\" selected>". $visibility->getVisibilityCondition(). "</option>";
-                                }
-                                else 
-                                {
-                                    echo "<option value=\"". $visibility->getVisibilityId(). "\">". $visibility->getVisibilityCondition(). "</option>";
-                                }
-                            }
+                            header('Location:./error.html');
+                            exit;
+                        }
+                        catch(Error $e)
+                        {
+                            header('Location:./error.html');
+                            exit;
                         }
                     ?>
 
@@ -218,14 +283,25 @@
             </div>
 
             <?php
-                $key = $_GET['key']; 
-                echo '<input type="hidden" value="' . $key . '" name="experience_key">';
-            ?>
-
-            <?php
-                $key = random_pw(10); 
-                $_SESSION['action'][$key] = 'update'; 
-                echo '<input type="hidden" value="' . $key . '" name="action_key">';
+                try 
+                {
+                    $key = $_GET['key']; 
+                    echo '<input type="hidden" value="' . $key . '" name="experience_key">';
+                    
+                    $key = random_pw(10); 
+                    $_SESSION['action'][$key] = 'update'; 
+                    echo '<input type="hidden" value="' . $key . '" name="action_key">';
+                }
+                catch(Exception $e)
+                {
+                    header('Location:./error.html');
+                    exit;
+                }
+                catch(Error $e)
+                {
+                    header('Location:./error.html');
+                    exit;
+                }
             ?>
             
             <button type="submit" >Submit</button>
