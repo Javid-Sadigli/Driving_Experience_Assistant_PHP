@@ -49,57 +49,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/form.css">
 
-    <!-- <script>
-
-        let weatherDataArray = [{"idWeather":1,"weather":"sunny"},{"idWeather":2,"weather":"rainy"},{"idWeather":3,"weather":"windy"},{"idWeather":4,"weather":"cloudy"},{"idWeather":5,"weather":"snowy"},{"idWeather":6,"weather":"stormy"}];
-
-        let roadDataArray = [{"idRoad":1,"roadCondition":"smooth"},{"idRoad":2,"roadCondition":"bumpy"},{"idRoad":3,"roadCondition":"icy"},{"idRoad":4,"roadCondition":"under construction"},{"idRoad":5,"roadCondition":"gravel"},{"idRoad":6,"roadCondition":"potholes"}];
-
-        let trafficDataArray = [{"idTraffic":1,"traffic":"heavy"},{"idTraffic":2,"traffic":"light"},{"idTraffic":3,"traffic":"moderate"},{"idTraffic":4,"traffic":"accident"}];
-        
-        let visibilityDataArray = [{"idVisibility":1,"visibility":"clear"},{"idVisibility":2,"visibility":"foggy"},{"idVisibility":3,"visibility":"hazy"},{"idVisibility":4,"visibility":"smoky"},{"idVisibility":5,"visibility":"dusty"},{"idVisibility":6,"visibility":"misty"}];
-
-        function saveExperience()
-        {
-            let date = document.getElementById("date").value;
-            let start_time = document.getElementById("start_time").value;
-            let end_time = document.getElementById("end_time").value;
-            let km = document.getElementById("km").value;
-            let weatherId = parseInt(document.getElementById("weatherId").value);
-            let roadId = parseInt(document.getElementById("roadId").value);
-            let trafficId = parseInt(document.getElementById("trafficId").value);
-            let visibilityId = parseInt(document.getElementById("visibilityId").value);
-
-            if(date && start_time && end_time && km)
-            {
-                let experienceList = [];
-                let id = 1;
-
-                if(localStorage.getItem("experienceList") != null)
-                {
-                    experienceList = JSON.parse(localStorage.getItem("experienceList"));
-                    id = experienceList[experienceList.length - 1].id + 1;
-                }
-                
-                let newExperience = {
-                    id : id,
-                    date : date, 
-                    start_time : start_time, 
-                    end_time : end_time,
-                    km : km, 
-                    weatherId : weatherId,
-                    roadId : roadId,
-                    trafficId : trafficId,
-                    visibilityId : visibilityId
-                };
-
-                experienceList.push(newExperience);
-                localStorage.setItem("experienceList", JSON.stringify(experienceList));
-                document.getElementById("experience_form").reset();
-            }
-        }
-    </script> -->
-
 </head>
 <body>
     <header>
