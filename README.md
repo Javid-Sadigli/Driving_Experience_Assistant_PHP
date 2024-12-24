@@ -1,7 +1,14 @@
 # Driving Experience Assistant with Backend using PHP
 This project is the continuation of the Driving Experience Assistant project (using HTML, CSS and JavaScript). Instead of JavaScript, the logic is handled using PHP. And for data storage, instead of local storage, a MySQL database is used. 
 
-## Table of Contents 
+## Table of Contents
+
+* [Features](#features)
+* [Getting Started](#getting-started)
+* [See the Application](#see-the-application)
+* [Technical Aspects](#technical-aspects)
+* [Contributing](#contributing)
+
 
 ## Features
 * Nice frontend created using HTML/CSS. 
