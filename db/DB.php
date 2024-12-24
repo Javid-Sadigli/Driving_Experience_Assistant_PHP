@@ -1,10 +1,10 @@
 <?php
     class DB
     {
-        private static $host="mysql-javidsadigli.alwaysdata.net";
-        private static $username="334744_sqluser"; 
-        private static $password="sqluser";
-        private static $db="javidsadigli_driving_experience";
+        private static $host="DB_HOST";
+        private static $username="DB_USERNAME"; 
+        private static $password="DB_PASSWORD";
+        private static $db="DB_DB";
         private MySqlConnection $connection; 
 
         private function __construct() 
